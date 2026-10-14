@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OncoHub · Demo phối màu theo logo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Lora:wght@500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',sans-serif;background:#e9eaec;color:#222}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:3px solid #2684ff;outline-offset:2px}
+
+/* ===== Thanh điều khiển demo (không đổi theo theme) ===== */
+#demo{position:sticky;top:0;z-index:100;background:#17181a;color:#f2f2f2;padding:10px 20px 12px;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+#demo .r1{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+#demo h1{font-size:14px;font-weight:600}
+#demo h1 span{font-weight:400;color:#a8abb0;margin-left:8px;font-size:12px}
+.seg{display:inline-flex;background:#2a2c30;border-radius:999px;padding:3px}
+.seg button{border:0;background:transparent;color:#c9ccd1;font-size:13px;padding:6px 16px;border-radius:999px;font-weight:500}
+.seg button[aria-pressed="true"]{background:#fff;color:#17181a}
+#themes{display:flex;gap:8px;margin-top:10px;overflow-x:auto;padding-bottom:2px}
+#themes button{display:flex;align-items:center;gap:8px;border:1.5px solid #3a3d42;background:#222427;color:#e6e8eb;border-radius:12px;padding:6px 12px 6px 6px;font-size:12.5px;white-space:nowrap;text-align:left;line-height:1.25}
+#themes button[aria-pressed="true"]{border-color:#ffd24a;background:#2f2c1c}
+#themes .ico{width:34px;height:34px;border-radius:8px;background:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+#themes .ico svg{width:28px;height:28px}
+#themes small{display:block;color:#9da1a7;font-size:11px}
+#pal{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px;font-size:11.5px;color:#a8abb0}
+#pal .sw{display:flex;align-items:center;gap:6px}
+#pal i{width:18px;height:18px;border-radius:5px;border:1px solid rgba(255,255,255,.25);display:block}
+#pal b{font-weight:500;color:#e6e8eb}
+#note{margin-left:auto;color:#ffd24a}
+
+/* ===== Website ===== */
+#site{background:#fff;color:var(--body);max-width:1440px;margin:0 auto;font-size:15px;line-height:1.6}
+#site *{transition:background-color .35s,color .35s,border-color .35s}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.serif{font-family:'Lora',Georgia,serif;font-weight:500;text-wrap:balance}
+.topbar{background:var(--dark);color:rgba(255,255,255,.85);font-size:11px;padding:7px 0}
+.topbar .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+header.hd .wrap{display:flex;align-items:center;justify-content:space-between;padding-top:14px;padding-bottom:14px;gap:16px}
+.lg{display:inline-flex;align-items:center;gap:10px;text-decoration:none}
+.lg svg{width:42px;height:42px;flex:none}
+.lg b{display:block;font-size:17px;line-height:1.1;font-weight:600;letter-spacing:-.01em}
+.lg small{display:block;font-size:10.5px;opacity:.75;margin-top:2px}
+.hdr-r{display:flex;align-items:center;gap:12px}
+.search-s{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:13px;color:var(--body);min-width:190px;background:#fff}
+.btn{border:0;border-radius:999px;padding:10px 20px;font-weight:600;font-size:13px;display:inline-flex;align-items:center;gap:8px;text-decoration:none}
+.btn-cta{background:var(--cta);color:var(--ctaText)}
+.btn-ctad{background:var(--ctaD);color:var(--ctaDText)}
+.btn-dark{background:var(--dark);color:#fff}
+nav.mn{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+nav.mn .wrap{display:flex;justify-content:space-between;gap:12px;overflow-x:auto}
+nav.mn a{font-size:11px;font-weight:600;color:var(--heading);text-transform:uppercase;letter-spacing:.04em;padding:14px 4px;white-space:nowrap;border-bottom:2px solid transparent;text-decoration:none}
+nav.mn a.on{border-bottom-color:var(--cta)}
+section{position:relative}
+.pad{padding:72px 0}
+h2.h{font-size:32px;line-height:1.25;color:var(--heading)}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:32px;flex-wrap:wrap}
+.sec-head p{max-width:380px;font-size:14px}
+.chip{display:inline-block;border:1px solid var(--line);background:#fff;color:var(--heading);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:500}
+.lbl{font-size:10.5px;letter-spacing:.1em;font-weight:600;text-transform:uppercase}
+
+/* hero */
+.hero{background:var(--soft);overflow:hidden}
+.hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding-top:64px;padding-bottom:72px;position:relative;z-index:1}
+.hero .c1,.hero .c2{position:absolute;border-radius:50%;z-index:0}
+.hero .c1{width:420px;height:420px;background:var(--tint);right:-120px;top:20px;opacity:.8}
+.hero .c2{width:300px;height:300px;background:var(--alt);left:-90px;bottom:-110px}
+.pill{display:inline-block;background:#fff;border:1px solid var(--line);color:var(--heading);border-radius:999px;padding:5px 14px;font-size:11.5px;font-weight:500;margin-bottom:24px}
+.hero h1{font-size:52px;line-height:1.12;color:var(--heading);margin-bottom:20px}
+.hero p.lead{font-size:16px;max-width:430px;margin-bottom:28px}
+.sbox{display:flex;align-items:center;background:#fff;border-radius:999px;padding:6px 6px 6px 22px;box-shadow:0 2px 14px rgba(0,0,0,.07);max-width:520px}
+.sbox span{flex:1;font-size:13.5px;color:#8a9499}
+.sbox button{border:0;background:var(--dark);color:#fff;border-radius:999px;padding:11px 22px;font-weight:600;font-size:13px}
+.tags{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:16px;font-size:12px}
+.hcard{background:var(--dark);color:#fff;border-radius:22px;padding:30px;box-shadow:0 18px 40px -18px rgba(0,0,0,.45)}
+.hcard .lbl{color:var(--accent)}
+.hcard h3{font-size:25px;line-height:1.25;margin:8px 0 8px}
+.hcard p{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:16px}
+.hcard ol{list-style:none;display:grid;gap:7px;margin-bottom:20px}
+.hcard li{display:flex;align-items:center;gap:10px;background:var(--dark2);border-radius:8px;padding:8px 12px;font-size:12.5px}
+.hcard li i{font-style:normal;width:20px;height:20px;border-radius:50%;background:var(--accent);color:var(--dark);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.hcard .btn{width:100%;justify-content:center;padding:13px}
+
+/* regions */
+.reg{display:grid;grid-template-columns:330px 1fr;gap:28px;align-items:stretch}
+.fig{background:var(--tint);border-radius:20px;display:flex;align-items:center;justify-content:center;padding:28px}
+.fig svg{width:100%;max-width:230px}
+.rlist{display:grid;gap:14px}
+.rc{border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:16px 20px;background:#fff}
+.rc .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}
+.rc .t{display:flex;align-items:center;gap:12px}
+.rc .n{width:26px;height:26px;border-radius:50%;background:var(--c);color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.rc h4{font-size:17px;color:var(--heading);line-height:1.2}
+.rc small{display:block;font-size:11.5px;color:var(--body)}
+.rc a{font-size:12px;font-weight:600;color:var(--heading);text-decoration:none;white-space:nowrap}
+.rc .chips{display:flex;gap:6px;flex-wrap:wrap}
+
+/* topics */
+.tg{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.tc{border:1px solid var(--line);border-radius:14px;padding:18px;min-height:178px}
+.tc.a{background:var(--tint)}
+.tc.b{background:var(--soft)}
+.tc .nn{width:30px;height:30px;border-radius:8px;color:#fff;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+.tc.a .nn{background:var(--badgeA)}
+.tc.b .nn{background:var(--badgeB)}
+.tc em{display:block;font-size:11.5px;color:var(--label);margin-bottom:4px}
+.tc h4{font-size:15.5px;color:var(--heading);line-height:1.3;margin-bottom:6px}
+.tc p{font-size:12px;line-height:1.55}
+
+/* articles */
+.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.ac{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff}
+.cover{height:170px;position:relative;overflow:hidden}
+.cover i{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
+.cover i:nth-child(1){width:110px;height:110px;right:32px;top:18px}
+.cover i:nth-child(2){width:80px;height:80px;left:56px;bottom:-26px;background:rgba(255,255,255,.4)}
+.ac .bd{padding:16px 18px 18px}
+.tag{display:inline-block;font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 10px;border-radius:999px;margin-bottom:10px;color:var(--heading)}
+.ac h4{font-size:16px;line-height:1.4;color:var(--heading);margin-bottom:8px}
+.meta{font-size:11.5px;color:var(--body)}
+.series{margin-top:24px;background:var(--tint);border:1px solid var(--line);border-radius:16px;padding:22px 26px;display:grid;grid-template-columns:200px 1fr auto;gap:24px;align-items:center}
+.series h4{font-size:14.5px;color:var(--heading)}
+.series small{font-size:11.5px}
+.series .tags{margin:0}
+
+/* feature */
+.feat{background:var(--soft)}
+.feat .wrap{display:grid;grid-template-columns:1.5fr 1fr;gap:24px;padding-top:56px;padding-bottom:56px}
+.fcard{background:var(--feature);color:#fff;border-radius:20px;padding:34px}
+.fcard .lbl{color:rgba(255,255,255,.7)}
+.fcard h3{font-size:30px;line-height:1.2;margin:10px 0 12px}
+.fcard p{font-size:14px;color:rgba(255,255,255,.82);margin-bottom:18px;max-width:440px}
+.fcard .chip{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.fcard .tags{margin:0}
+.wcard{background:#fff;border:1px solid var(--line);border-radius:20px;padding:28px;display:flex;flex-direction:column;gap:12px}
+.wcard .ic{width:40px;height:40px;border-radius:10px;background:var(--alt);color:var(--heading);display:flex;align-items:center;justify-content:center}
+.wcard h4{font-size:17px;color:var(--heading)}
+.wcard p{font-size:13px}
+.wcard a{margin-top:auto;font-size:13px;font-weight:600;color:var(--heading);text-decoration:none}
+
+/* family */
+.fam{background:var(--alt)}
+.fam .wrap{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding-top:64px;padding-bottom:64px}
+.famfig{background:var(--tint);border-radius:20px;height:300px;position:relative;overflow:hidden}
+.famfig i{position:absolute;border-radius:50%}
+.famfig i:nth-child(1){width:190px;height:190px;background:var(--feature);left:44px;top:62px}
+.famfig i:nth-child(2){width:190px;height:190px;background:var(--cta);opacity:.88;left:140px;top:98px}
+.famfig i:nth-child(3){width:64px;height:64px;background:rgba(255,255,255,.75);right:28px;top:22px}
+.fam h3{font-size:32px;line-height:1.25;color:var(--heading);margin:8px 0 12px}
+.fam .lbl{color:var(--label)}
+.fam .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0}
+.fam .grid2 a{background:#fff;border-radius:10px;padding:11px 16px;font-size:12.5px;font-weight:500;color:var(--heading);display:flex;justify-content:space-between;text-decoration:none}
+
+/* trust */
+.trust{background:var(--dark);color:#fff}
+.trust .wrap{padding-top:64px;padding-bottom:48px}
+.trust .lbl{color:var(--accent)}
+.trust h2{font-size:34px;line-height:1.25;max-width:520px;margin:10px 0 12px}
+.trust .sub{font-size:13.5px;color:rgba(255,255,255,.75);max-width:520px;margin-bottom:28px}
+.t3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.t3 div{background:var(--dark2);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px}
+.t3 .lbl{color:var(--accent);display:block;margin-bottom:6px}
+.t3 h4{font-size:16px;margin-bottom:6px}
+.t3 p{font-size:12px;color:rgba(255,255,255,.72)}
+.src{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:26px 0 14px;font-size:11.5px;color:rgba(255,255,255,.7)}
+.src span.c{border:1px solid rgba(255,255,255,.4);border-radius:8px;padding:3px 12px;color:#fff;font-weight:600;font-size:11px}
+.warn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px 16px;font-size:12px;color:rgba(255,255,255,.85)}
+.pol{display:flex;gap:22px;flex-wrap:wrap;font-size:11px;color:rgba(255,255,255,.75);margin-top:26px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14)}
+
+.alone .wrap{padding-top:56px;padding-bottom:56px}
+.alone .box{background:var(--soft);border:1px solid var(--line);border-radius:22px;padding:36px;display:grid;grid-template-columns:1fr 1.3fr;gap:32px;align-items:center}
+.alone h3{font-size:30px;color:var(--heading);margin-bottom:10px}
+.alone p{font-size:13.5px;margin-bottom:16px}
+.alone .g{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.alone .g div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.alone .g b{display:block;font-size:13px;color:var(--heading);font-weight:600}
+.alone .g small{font-size:11px}
+
+footer.ft{background:var(--dark);color:#fff}
+footer.ft .wrap{padding-top:48px;padding-bottom:24px}
+.fg{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:32px}
+.fg p.d{font-size:12px;color:rgba(255,255,255,.75);margin:14px 0;max-width:300px}
+.fg h5{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:12px;font-weight:600}
+.fg ul{list-style:none;display:grid;gap:8px;font-size:12px;color:rgba(255,255,255,.85)}
+.fb{display:flex;gap:8px}
+.fb span{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:5px 14px;font-size:11.5px}
+.disc{font-size:10.5px;color:rgba(255,255,255,.65);margin-top:28px;padding-top:18px;border-top:1px solid rgba(255,255,255,.14)}
+.cp{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:10.5px;color:rgba(255,255,255,.6);margin-top:16px}
+
+/* ===== Trang bài viết ===== */
+.crumb{font-size:12px;padding-top:14px;padding-bottom:14px;color:var(--body)}
+.crumb b{color:var(--heading);font-weight:600}
+.band{background:var(--tint)}
+.band .wrap{display:grid;grid-template-columns:1fr 300px;gap:48px;padding-top:36px;padding-bottom:36px;align-items:start}
+.band .lbl{color:var(--label)}
+.band h1{font-size:42px;line-height:1.2;color:var(--heading);margin:10px 0 14px;max-width:640px}
+.band p.sp{font-size:16px;max-width:620px;margin-bottom:16px}
+.band .mt{font-size:12px;display:flex;gap:18px;flex-wrap:wrap}
+.band .mt b{color:var(--heading)}
+.rev{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.rev .l2{display:inline-block;background:var(--tint);color:var(--heading);font-size:10px;font-weight:600;letter-spacing:.06em;padding:3px 10px;border-radius:4px;width:100%;margin-bottom:12px}
+.rev .rw{display:flex;gap:12px;align-items:center}
+.rev .av{width:40px;height:40px;border-radius:50%;background:var(--tint);color:var(--heading);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:none}
+.rev b{font-size:13px;color:var(--heading);display:block;line-height:1.3}
+.rev small{font-size:11px;display:block}
+.rev .nc{font-size:11px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.body3{display:grid;grid-template-columns:200px minmax(0,1fr) 270px;gap:36px;padding-top:36px;padding-bottom:72px;align-items:start}
+.toc{position:sticky;top:150px}
+.toc .lbl{display:block;color:var(--heading);margin-bottom:12px;font-size:10px}
+.toc a{display:block;font-size:12.5px;color:var(--body);padding:7px 0 7px 12px;border-left:2px solid var(--line);text-decoration:none;line-height:1.4}
+.toc a.on{border-left-color:var(--cta);color:var(--heading);font-weight:600}
+.toc .act{display:flex;gap:6px;margin-top:16px}
+.toc .act span{border:1px solid var(--line);border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:500;color:var(--heading)}
+.art .cv{height:260px;border-radius:16px;background:var(--cov1);position:relative;overflow:hidden;margin-bottom:24px}
+.art .cv i{position:absolute;border-radius:50%;background:rgba(255,255,255,.55)}
+.art .cv i:nth-child(1){width:180px;height:180px;left:24px;bottom:-60px}
+.art .cv i:nth-child(2){width:110px;height:110px;right:70px;top:40px}
+.key{border:1.5px solid var(--feature);border-left-width:5px;border-radius:12px;background:var(--tint);padding:18px 22px;margin-bottom:30px}
+.key .lbl{color:var(--heading);display:block;margin-bottom:8px}
+.key ul{padding-left:20px;display:grid;gap:8px;font-size:14px}
+.key li::marker{color:var(--feature)}
+.art h2{font-size:25px;color:var(--heading);margin:34px 0 12px;scroll-margin-top:150px}
+.art p{margin-bottom:14px;font-size:15px;line-height:1.75;max-width:640px}
+.art ul.q{padding-left:20px;display:grid;gap:8px;margin-bottom:14px;max-width:640px;line-height:1.7}
+.gl{border:1px solid var(--line);border-radius:12px;overflow:hidden;max-width:640px;margin-bottom:14px}
+.gl div{display:grid;grid-template-columns:200px 1fr;gap:12px;padding:11px 16px;font-size:13.5px;border-bottom:1px solid var(--line)}
+.gl div:last-child{border-bottom:0}
+.gl div:nth-child(odd){background:var(--soft)}
+.gl b{color:var(--heading);font-weight:600}
+.side{display:grid;gap:16px;position:sticky;top:150px}
+.s1{background:var(--dark);color:#fff;border-radius:16px;padding:22px}
+.s1 .lbl{color:var(--accent)}
+.s1 h4{font-size:18px;line-height:1.3;margin:6px 0 8px}
+.s1 p{font-size:12.5px;color:rgba(255,255,255,.75);margin-bottom:14px}
+.s2{border:1px solid var(--line);border-radius:16px;padding:20px}
+.s2 .lbl{color:var(--heading);display:block;margin-bottom:12px;font-size:10px}
+.s2 a{display:block;text-decoration:none;margin-bottom:14px}
+.s2 a:last-child{margin-bottom:0}
+.s2 b{font-size:13px;color:var(--heading);font-weight:600;line-height:1.4;display:block}
+.s2 small{font-size:11px}
+.s3{background:var(--soft);border:1px solid var(--line);border-radius:16px;padding:20px}
+.s3 h4{font-size:14.5px;color:var(--heading);margin-bottom:6px}
+.s3 p{font-size:12px;margin-bottom:14px}
+
+@media (max-width:980px){
+ .hero .wrap,.reg,.feat .wrap,.fam .wrap,.alone .box,.band .wrap{grid-template-columns:1fr}
+ .tg{grid-template-columns:repeat(2,1fr)}
+ .ag,.t3{grid-template-columns:1fr}
+ .series{grid-template-columns:1fr}
+ .fg{grid-template-columns:1fr 1fr}
+ .body3{grid-template-columns:1fr}
+ .toc,.side{position:static}
+ .hero h1{font-size:40px}
+ .hdr-r .search-s{display:none}
+}
+@media (prefers-reduced-motion:reduce){#site *{transition:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div id="demo">
+  <div class="r1">
+    <h1>OncoHub · Demo phối màu theo logo <span>Chọn logo để xem toàn bộ website đổi tone màu</span></h1>
+    <div class="seg" role="group" aria-label="Chọn trang">
+      <button id="bHome" aria-pressed="true">Trang chủ</button>
+      <button id="bArt" aria-pressed="false">Trang bài viết</button>
+    </div>
+  </div>
+  <div id="themes" role="group" aria-label="Chọn logo và tone màu"></div>
+  <div id="pal" aria-live="polite"></div>
+</div>
+
+<div id="site">
+  <div class="topbar"><div class="wrap"><span>Một sáng kiến cộng đồng của Medi-Link</span><span>Nội dung mang tính giáo dục · không thay thế tư vấn của bác sĩ điều trị</span></div></div>
+  <header class="hd"><div class="wrap">
+    <a class="lg slot" data-dark="0" href="#" onclick="return false"></a>
+    <div class="hdr-r"><div class="search-s">⌕ Tìm kiếm</div><a class="btn btn-cta" href="#" onclick="return false">Tôi vừa được chẩn đoán</a></div>
+  </div></header>
+  <nav class="mn"><div class="wrap" id="menu"></div></nav>
+
+  <!-- ===================== TRANG CHỦ ===================== -->
+  <div id="pHome">
+    <section class="hero">
+      <span class="c1"></span><span class="c2"></span>
+      <div class="wrap">
+        <div>
+          <span class="pill">Thông tin đúng. Lựa chọn sáng suốt. Cùng nhau đi tiếp.</span>
+          <h1 class="serif">Bạn đang cần tìm điều gì?</h1>
+          <p class="lead">Mỗi người đang ở một chặng khác nhau trong hành trình với ung thư. Hãy chọn điểm bắt đầu gần nhất với bạn — chúng tôi sẽ dẫn đường đến thông tin đã được kiểm duyệt.</p>
+          <div class="sbox"><span>Tìm theo loại ung thư, xét nghiệm, điều trị, tác dụng phụ…</span><button>Tìm kiếm</button></div>
+          <div class="tags"><span>Tìm nhiều:</span><span class="chip">Giai đoạn bệnh</span><span class="chip">Biomarker</span><span class="chip">Second opinion</span><span class="chip">Tác dụng phụ</span></div>
+        </div>
+        <aside class="hcard">
+          <span class="lbl">Bắt đầu từ đây</span>
+          <h3 class="serif">Tôi vừa được chẩn đoán ung thư</h3>
+          <p>Việc nên làm đầu tiên là hiểu chẩn đoán, chuẩn bị cho buổi gặp bác sĩ và tìm hỗ trợ.</p>
+          <ol id="steps"></ol>
+          <a class="btn btn-ctad" href="#" onclick="return false">Xem hướng dẫn chi tiết →</a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="pad"><div class="wrap">
+      <div class="sec-head"><h2 class="h serif">Bạn quan tâm ung thư<br>ở vùng nào của cơ thể?</h2><p>Chọn một vùng trên cơ thể để xem các loại ung thư thường gặp ở vùng đó và đi thẳng đến nội dung cần tìm hiểu.</p></div>
+      <div class="reg">
+        <div class="fig" id="fig"></div>
+        <div class="rlist" id="regions"></div>
+      </div>
+    </div></section>
+
+    <section class="pad" style="padding-top:8px"><div class="wrap">
+      <div class="sec-head"><h2 class="h serif">Khám phá theo chủ đề</h2><p>Tám trụ cột nội dung trả lời tám câu hỏi người bệnh và người nhà thường đặt ra.</p></div>
+      <div class="tg" id="topics"></div>
+    </div></section>
+
+    <section class="pad" style="padding-top:24px"><div class="wrap">
+      <div class="sec-head"><h2 class="h serif">Kiến thức mới trong tuần</h2><p>Mỗi tuần ba bài: một bài để hiểu, một bài để lựa chọn và một bài để đồng hành.</p></div>
+      <div class="ag" id="arts"></div>
+      <div class="series">
+        <div><h4>Các series nổi bật</h4><small>Theo cùng nội dung trên Facebook</small></div>
+        <div class="tags"><span class="chip">#HiểuĐúngVềUngThư</span><span class="chip">#5PhútHiểuUngThư</span><span class="chip">#HỏiBácSĩ</span><span class="chip">#NgườiNhàCầnBiết</span><span class="chip">#HiểuVềThửNghiệmLâmSàng</span><span class="chip">#CùngNhauĐiTiếp</span><span class="chip">#TinUngThưĐángChúÝ</span></div>
+        <a class="btn btn-dark" href="#" onclick="return false">Theo dõi trên Facebook</a>
+      </div>
+    </div></section>
+
+    <section class="feat"><div class="wrap">
+      <div class="fcard">
+        <span class="lbl">Chuyên mục đặc trưng</span>
+        <h3 class="serif">Hiểu về thử nghiệm<br>lâm sàng</h3>
+        <p>Thử nghiệm lâm sàng là gì, diễn ra như thế nào và bạn có những quyền gì — được giải thích bằng tiếng Việt dễ hiểu, để bạn đặt đúng câu hỏi với bác sĩ.</p>
+        <div class="tags"><span class="chip">Phase I–III</span><span class="chip">Placebo</span><span class="chip">Informed consent</span><span class="chip">Quyền rút khỏi nghiên cứu</span><span class="chip">Eligibility</span><span class="chip">Standard of care</span></div>
+      </div>
+      <div class="wcard">
+        <div class="ic">✓</div>
+        <h4>Cam kết độc lập và minh bạch</h4>
+        <p>Chuyên mục chỉ mang tính giáo dục và không giới thiệu hay tuyển bệnh nhân cho bất kỳ cơ sở nào. Nếu một nghiên cứu có đơn vị thuộc Medi-Link cung cấp dịch vụ, chúng tôi sẽ công bố rõ ràng.</p>
+        <a href="#" onclick="return false">Tìm hiểu chính sách xung đột lợi ích →</a>
+      </div>
+    </div></section>
+
+    <section class="fam"><div class="wrap">
+      <div class="famfig"><i></i><i></i><i></i></div>
+      <div>
+        <span class="lbl">Dành cho người thân</span>
+        <h3 class="serif">Bạn đang chăm sóc người thân?<br>Bạn không phải làm một mình.</h3>
+        <p style="font-size:13.5px">Những hướng dẫn thực tế để trò chuyện, hỗ trợ và giữ sức cho chính bạn trong suốt hành trình.</p>
+        <div class="grid2"><a href="#" onclick="return false">Giao tiếp với người bệnh <span>→</span></a><a href="#" onclick="return false">Chăm sóc thực tế <span>→</span></a><a href="#" onclick="return false">Nói chuyện với trẻ em <span>→</span></a><a href="#" onclick="return false">Phòng tránh kiệt sức <span>→</span></a></div>
+        <a class="btn btn-cta" href="#" onclick="return false">Vào mục Dành cho người thân</a>
+      </div>
+    </div></section>
+
+    <section class="trust"><div class="wrap">
+      <span class="lbl">Thông tin bạn có thể tin cậy</span>
+      <h2 class="serif">Mỗi nội dung y khoa đều được biên soạn, kiểm duyệt và cập nhật</h2>
+      <p class="sub">Mức độ kiểm duyệt tăng dần theo mức độ nhạy cảm của nội dung. AI chỉ hỗ trợ soạn thảo, không phải nguồn tham chiếu.</p>
+      <div class="t3">
+        <div><span class="lbl">Cấp 1</span><h4>Kiến thức giáo dục chung</h4><p>Đội ngũ biên tập biên soạn, đối chiếu nguồn đáng tin cậy.</p></div>
+        <div><span class="lbl">Cấp 2</span><h4>Thông tin lâm sàng</h4><p>Cần medical reviewer thẩm định trước khi đăng.</p></div>
+        <div><span class="lbl">Cấp 3</span><h4>Diễn giải guideline &amp; khuyến cáo điều trị</h4><p>Bắt buộc có thẩm định của bác sĩ chuyên khoa.</p></div>
+      </div>
+      <div class="src"><span>Nguồn ưu tiên:</span><span class="c">WHO</span><span class="c">BỘ Y TẾ</span><span class="c">NCCN</span><span class="c">ESMO</span><span class="c">ASCO</span><span class="c">CANCER COUNCIL</span><span class="c">NCI</span></div>
+      <div class="warn">Chúng tôi không đưa ra phác đồ điều trị cá nhân. Hãy trao đổi với bác sĩ điều trị về trường hợp của bạn.</div>
+      <div class="pol"><span>Chính sách biên tập</span><span>Chính sách thẩm định y khoa</span><span>Xung đột lợi ích</span><span>Chính sách đính chính</span><span>Quyền riêng tư</span><span>Tuyên bố miễn trừ</span></div>
+    </div></section>
+
+    <section class="alone"><div class="wrap"><div class="box">
+      <div><h3 class="serif">Bạn không đơn độc</h3><p>Tìm bệnh viện, tổ chức hỗ trợ và người đồng hành phù hợp với hoàn cảnh của bạn và gia đình.</p><a class="btn btn-dark" href="#" onclick="return false">Tìm hỗ trợ →</a></div>
+      <div class="g"><div><b>Bệnh viện &amp; cơ sở điều trị</b><small>Thông tin tham khảo, không xếp hạng</small></div><div><b>Tổ chức hỗ trợ</b><small>Các tổ chức cộng đồng và người bệnh</small></div><div><b>Patient navigation</b><small>Người đồng hành giúp bạn đi đúng bước</small></div><div><b>Hỗ trợ xã hội &amp; tài chính</b><small>Nguồn hỗ trợ thực tế cho gia đình</small></div></div>
+    </div></div></section>
+  </div>
+
+  <!-- ===================== TRANG BÀI VIẾT ===================== -->
+  <div id="pArt" hidden>
+    <div class="wrap crumb">Trang chủ › Hiểu về ung thư › <b>Chẩn đoán</b></div>
+    <section class="band"><div class="wrap">
+      <div>
+        <span class="lbl">Chẩn đoán</span>
+        <h1 class="serif">Giải phẫu bệnh là gì và vì sao kết quả này quan trọng?</h1>
+        <p class="sp">Kết quả giải phẫu bệnh giúp xác định loại ung thư và đặc điểm của khối u. Bài viết giải thích cách đọc báo cáo và những câu hỏi nên trao đổi với bác sĩ.</p>
+        <div class="mt"><span>Biên soạn: <b>Đội ngũ biên tập</b></span><span>Cập nhật: <b>12/10/2026</b></span><span>6 phút đọc</span></div>
+      </div>
+      <aside class="rev">
+        <span class="l2">CẤP 2</span>
+        <div class="rw"><div class="av">BS</div><div><b>Thẩm định y khoa: BS. [Tên reviewer]</b><small>Chuyên khoa [ví dụ: Giải phẫu bệnh] · [Cơ sở]</small></div></div>
+        <div class="nc">Không có xung đột lợi ích cần công bố.</div>
+      </aside>
+    </div></section>
+
+    <div class="wrap body3">
+      <nav class="toc" aria-label="Mục lục">
+        <span class="lbl">Trong bài này</span>
+        <a href="#s1" class="on">Giải phẫu bệnh là gì?</a><a href="#s2">Vì sao kết quả này quan trọng?</a><a href="#s3">Cách đọc báo cáo giải phẫu bệnh</a><a href="#s4">Những thuật ngữ thường gặp</a><a href="#s5">Câu hỏi nên hỏi bác sĩ</a><a href="#s6">Nguồn tham khảo</a>
+        <div class="act"><span>Lưu</span><span>Chia sẻ</span><span>In</span></div>
+      </nav>
+      <article class="art">
+        <div class="cv"><i></i><i></i></div>
+        <div class="key"><span class="lbl">Điểm chính</span><ul>
+          <li>Giải phẫu bệnh là kết quả khảo sát mô, giúp xác định loại và đặc điểm của ung thư.</li>
+          <li>Báo cáo này là cơ sở để bác sĩ đánh giá giai đoạn và bàn về các lựa chọn điều trị.</li>
+          <li>Bạn có quyền xin bản sao báo cáo và nhờ bác sĩ giải thích từng mục.</li></ul></div>
+        <h2 id="s1" class="serif">Giải phẫu bệnh là gì?</h2>
+        <p>Giải phẫu bệnh là chuyên ngành y khoa khảo sát mô hoặc tế bào lấy từ cơ thể bằng sinh thiết hoặc phẫu thuật. Bác sĩ giải phẫu bệnh quan sát mẫu dưới kính hiển vi để xác định mẫu đó có tế bào ung thư hay không, và nếu có thì thuộc loại nào.</p>
+        <h2 id="s2" class="serif">Vì sao kết quả này quan trọng?</h2>
+        <p>Kết quả giải phẫu bệnh thường là căn cứ để chẩn đoán xác định. Từ đó, nhóm điều trị cân nhắc các bước tiếp theo như xét nghiệm bổ sung, đánh giá giai đoạn và lựa chọn phương pháp điều trị phù hợp.</p>
+        <h2 id="s3" class="serif">Cách đọc báo cáo giải phẫu bệnh</h2>
+        <p>Một báo cáo thường gồm mô tả mẫu, kết luận chẩn đoán và một số thông tin bổ sung. Bạn không cần tự diễn giải mọi chi tiết; hãy đánh dấu những mục chưa hiểu và hỏi bác sĩ điều trị trong buổi hẹn tiếp theo.</p>
+        <h2 id="s4" class="serif">Những thuật ngữ thường gặp</h2>
+        <div class="gl"><div><b>Biên phẫu thuật (margin)</b><span>Rìa mô được cắt quanh khối u, cho biết còn tế bào ung thư ở rìa hay không.</span></div><div><b>Độ biệt hóa (grade)</b><span>Mức độ tế bào ung thư giống hay khác tế bào bình thường.</span></div><div><b>Hạch (lymph node)</b><span>Cho biết ung thư có lan đến hạch hay không.</span></div></div>
+        <h2 id="s5" class="serif">Câu hỏi nên hỏi bác sĩ</h2>
+        <ul class="q"><li>Kết luận chính của báo cáo này là gì, nói bằng ngôn ngữ đơn giản?</li><li>Tôi có cần làm thêm xét nghiệm nào sau kết quả này không?</li><li>Kết quả này ảnh hưởng thế nào đến các lựa chọn điều trị?</li></ul>
+        <h2 id="s6" class="serif">Nguồn tham khảo</h2>
+        <p style="color:var(--body)">Danh sách nguồn tham khảo sẽ được biên tập viên bổ sung trước khi đăng bài.</p>
+      </article>
+      <aside class="side">
+        <div class="s1"><span class="lbl">Bắt đầu từ đây</span><h4 class="serif">Tôi vừa được chẩn đoán ung thư</h4><p>Việc nên làm đầu tiên là hiểu chẩn đoán và chuẩn bị cho buổi gặp bác sĩ.</p><a class="btn btn-ctad" href="#" onclick="return false" style="padding:9px 18px">Xem hướng dẫn →</a></div>
+        <div class="s2"><span class="lbl">Bài liên quan</span>
+          <a href="#" onclick="return false"><b>Giai đoạn bệnh nghĩa là gì? Cách hiểu hệ thống T, N, M</b><small>Giai đoạn · 8 phút đọc</small></a>
+          <a href="#" onclick="return false"><b>Biomarker là gì và khi nào cần xét nghiệm?</b><small>Biomarker · 7 phút đọc</small></a>
+          <a href="#" onclick="return false"><b>Xin ý kiến bác sĩ thứ hai (second opinion) như thế nào?</b><small>Tìm hỗ trợ · 6 phút đọc</small></a></div>
+        <div class="s3"><h4>Có câu hỏi chung về chủ đề này?</h4><p>Gửi câu hỏi cho chuyên mục #HỏiBácSĩ. Chúng tôi không tư vấn điều trị cá nhân.</p><a class="btn btn-dark" href="#" onclick="return false" style="padding:9px 18px">Gửi câu hỏi</a></div>
+      </aside>
+    </div>
+  </div>
+
+  <footer class="ft"><div class="wrap">
+    <div class="fg">
+      <div><a class="lg slot" data-dark="1" href="#" onclick="return false"></a>
+        <p class="d">Nền tảng thông tin và hỗ trợ về ung thư bằng tiếng Việt: thông tin đúng, lựa chọn sáng suốt, cùng nhau đi tiếp.</p>
+        <div class="fb"><span>Facebook</span><span>Instagram</span></div></div>
+      <div><h5>Tìm hiểu</h5><ul><li>Hiểu về ung thư</li><li>Điều trị</li><li>Sống cùng ung thư</li><li>Thử nghiệm lâm sàng</li></ul></div>
+      <div><h5>Đồng hành</h5><ul><li>Dành cho người thân</li><li>Tìm hỗ trợ</li><li>Câu hỏi thường gặp</li><li>Tôi vừa được chẩn đoán</li></ul></div>
+      <div><h5>Về chúng tôi</h5><ul><li>Giới thiệu &amp; sứ mệnh</li><li>Cố vấn y khoa</li><li>Chính sách biên tập</li><li>Liên hệ</li></ul></div>
+    </div>
+    <p class="disc">Nội dung trên website này chỉ nhằm mục đích giáo dục và cung cấp thông tin chung, không thay thế chẩn đoán, tư vấn hay điều trị của bác sĩ. Chúng tôi không đưa ra phác đồ điều trị cá nhân.</p>
+    <div class="cp"><span>© 2026 Ung thư: Hiểu và Đồng hành · Medi-Link</span><span>Chính sách biên tập · Thẩm định y khoa · Xung đột lợi ích · Đính chính · Quyền riêng tư · Miễn trừ</span></div>
+  </div></footer>
+</div>
+
+<script>
+(function(){
+var P='M0 0 C-18 -14 -20 -46 0 -70 C20 -46 18 -14 0 0Z';
+function pet(r,s,f){return '<path transform="rotate('+r+') scale('+s+')" fill="'+f+'" d="'+P+'"/>'}
+function fan(fo,fm,fc,st,sw){return '<g stroke="'+st+'" stroke-width="'+sw+'" stroke-linejoin="round">'+pet(-62,.78,fo)+pet(62,.78,fo)+pet(-32,.92,fm)+pet(32,.92,fm)+pet(0,1,fc)+'</g>'}
+
+/* ===== Icon logo ===== */
+var ICON={
+ '0':function(d,bg){return '<circle cx="50" cy="50" r="44" fill="#F0C24B" stroke="#2F7A4F" stroke-width="7"/><circle cx="50" cy="50" r="22" fill="#FFF2B3" stroke="#2F7A4F" stroke-width="3"/>'},
+ '1':function(d,bg){var f=bg;return '<g transform="translate(50 76) scale(.9)">'+fan(f,f,f,d?'#FFD24A':'#F2B705',4)+'<path d="M-42 9 Q-21 17 0 9 T42 9" fill="none" stroke="'+(d?'#8FD19E':'#2E7D5B')+'" stroke-width="3" stroke-linecap="round"/></g>'},
+ '2':function(d,bg){return '<circle cx="50" cy="40" r="32" fill="#FFD24A"/><g transform="translate(50 78) scale(.9)">'+fan('#F7B5C4','#F18FA7','#E8688A',bg,3)+'</g>'},
+ '5':function(d,bg){var rc=d?'#8FD19E':'#2E7D5B';return '<circle cx="50" cy="50" r="42" fill="'+(d?'none':'#fff')+'" stroke="'+rc+'" stroke-width="8"/><g transform="translate(50 72) scale(.42)">'+fan('#FFC83D','#FFC83D','#F2B705',rc,5)+'</g>'},
+ '6':function(d,bg){return '<rect width="100" height="100" rx="24" fill="#FFF3C4"/><g transform="translate(50 78) scale(.72)">'+fan('#FFE27A','#FFD24A','#F2B705','#FFF3C4',3)+'</g>'},
+ '7':function(d,bg){return '<rect width="100" height="100" rx="28" fill="#FFEFE8"/><g transform="scale(.4545)"><path d="M136.3 16.2 A94 94 0 0 1 188 150" fill="none" stroke="#8FD19E" stroke-width="3.5" stroke-linecap="round"/><path d="M136.3 16.2 A94 94 0 1 0 115.3 201 A94 94 0 0 1 136.3 16.2Z" fill="#CDEBC0" stroke="#3E9B5F" stroke-width="4.5" stroke-linejoin="round"/><circle cx="160" cy="53" r="8.5" fill="#FFD966"/><g transform="translate(118 148) scale(.95)" stroke="#3E9B5F" stroke-width="3.5" stroke-linejoin="round"><path transform="rotate(-24)" fill="#FFF3F5" d="M0 0 C-10 -14 -12 -48 0 -74 C12 -48 10 -14 0 0Z"/><path transform="rotate(24)" fill="#FFF3F5" d="M0 0 C-10 -14 -12 -48 0 -74 C12 -48 10 -14 0 0Z"/><path transform="rotate(-72) scale(.78)" fill="#FCD9E1" d="'+P+'"/><path transform="rotate(72) scale(.78)" fill="#FCD9E1" d="'+P+'"/><path transform="rotate(-50) scale(.82)" fill="#F8BBCB" d="'+P+'"/><path transform="rotate(50) scale(.82)" fill="#F8BBCB" d="'+P+'"/><path fill="#F29AB3" d="M0 6 C-24 -14 -26 -54 0 -82 C26 -54 24 -14 0 6Z"/><path fill="#CDEFC0" d="M-62 -10 C-58 28 -16 32 0 12 C16 32 58 28 62 -10 C36 8 14 6 0 -4 C-14 6 -36 8 -62 -10Z"/></g></g>'}
+};
+
+/* ===== Tone màu từng logo ===== */
+var T={
+'0':{name:'Hiện tại (Figma)',sub:'Teal đậm + cam đất',note:'Bản gốc để đối chiếu',
+ lA:'#11404D',lB:'#11404D',lDA:'#fff',lDB:'#fff',
+ dark:'#0B3A47',dark2:'#14505E',feature:'#146070',cta:'#C4522F',ctaText:'#fff',ctaD:'#C4522F',ctaDText:'#fff',accent:'#F4A38A',label:'#C4522F',heading:'#11404D',body:'#4F6469',line:'#DCE6E6',soft:'#FBF6EE',tint:'#E8F2F1',alt:'#F3EADB',
+ r1:'#146070',r2:'#C4522F',r3:'#B8791F',r4:'#6B5B9E',badgeA:'#146070',badgeB:'#C4522F',cov1:'#CFE3E7',cov2:'#F6D5C8',cov3:'#E4DBC5'},
+'1':{name:'1 · Nét mảnh',sub:'Vàng nắng + xanh rêu',note:'Vàng là màu nút chính, xanh rêu giữ độ tin cậy',
+ lA:'#1F5B4A',lB:'#D99A00',lDA:'#fff',lDB:'#FFD24A',
+ dark:'#1F5B4A',dark2:'#2B7260',feature:'#2E7D5B',cta:'#F2B705',ctaText:'#3A2E00',ctaD:'#F2B705',ctaDText:'#3A2E00',accent:'#FFD24A',label:'#A87600',heading:'#1F5B4A',body:'#4C6358',line:'#DDE8DF',soft:'#FFF9E0',tint:'#EAF5EE',alt:'#FFF1C2',
+ r1:'#2E7D5B',r2:'#E0A100',r3:'#1F5B4A',r4:'#5E9E78',badgeA:'#2E7D5B',badgeB:'#B88400',cov1:'#D5EBDD',cov2:'#FFE7A8',cov3:'#E6EFC9'},
+'2':{name:'2 · Phẳng',sub:'Hồng sen + vàng',note:'Tone ấm, mềm, nhiều cảm xúc',
+ lA:'#8A2C4A',lB:'#D99A00',lDA:'#fff',lDB:'#FFD24A',
+ dark:'#8A2C4A',dark2:'#A13B5C',feature:'#A13B5C',cta:'#D4527A',ctaText:'#fff',ctaD:'#FFD24A',ctaDText:'#4A1226',accent:'#FFD24A',label:'#C23A66',heading:'#8A2C4A',body:'#6B4A55',line:'#F0D9DF',soft:'#FFF9E5',tint:'#FDEBF0',alt:'#FFEBC2',
+ r1:'#E8688A',r2:'#E0A100',r3:'#8A2C4A',r4:'#C77BA0',badgeA:'#A13B5C',badgeB:'#D4527A',cov1:'#FBD3DD',cov2:'#FFE3A3',cov3:'#EFD7C9'},
+'5':{name:'5 · Chữ O',sub:'Xanh lá + vàng',note:'Gần nhất với màu gốc: nhóm xanh quen thuộc, thêm vàng tươi',
+ lA:'#2E7D5B',lB:'#D99A00',lDA:'#fff',lDB:'#FFC83D',
+ dark:'#1B4332',dark2:'#265A43',feature:'#2E7D5B',cta:'#2E7D5B',ctaText:'#fff',ctaD:'#FFC83D',ctaDText:'#1B4332',accent:'#FFC83D',label:'#2E7D5B',heading:'#1B4332',body:'#4A6355',line:'#DCE9DF',soft:'#F3FAF5',tint:'#E4F3E9',alt:'#FFF3CC',
+ r1:'#2E7D5B',r2:'#F2B705',r3:'#1B4332',r4:'#8FD19E',badgeA:'#2E7D5B',badgeB:'#B88400',cov1:'#CDEBD7',cov2:'#FFE9A6',cov3:'#DDEFC8'},
+'6':{name:'6 · Đơn sắc vàng',sub:'Vàng + nâu đất',note:'Tươi và ấm nhất, tạo ấn tượng rất khác bản gốc',
+ lA:'#5A3E00',lB:'#C98A00',lDA:'#fff',lDB:'#FFD24A',
+ dark:'#5A3E00',dark2:'#70500A',feature:'#7A5600',cta:'#F2B705',ctaText:'#3A2800',ctaD:'#F2B705',ctaDText:'#3A2800',accent:'#FFD24A',label:'#9A6B00',heading:'#5A3E00',body:'#6F5A2E',line:'#EFE2B8',soft:'#FFF8DC',tint:'#FFF3C4',alt:'#FFE9A0',
+ r1:'#F2B705',r2:'#C98A00',r3:'#5A3E00',r4:'#A87600',badgeA:'#7A5600',badgeB:'#C98A00',cov1:'#FFE9A0',cov2:'#FBD9A6',cov3:'#EDE3BE'},
+'7':{name:'7 · Vầng trăng',sub:'Xanh lá + hồng + đào',note:'Mềm mại, gần gũi; nút hồng nổi bật trên nền xanh',
+ lA:'#2E7D5B',lB:'#E0A100',lDA:'#fff',lDB:'#FFD966',
+ dark:'#1E5C40',dark2:'#2A7352',feature:'#2E7D5B',cta:'#2E7D5B',ctaText:'#fff',ctaD:'#F29AB3',ctaDText:'#3B1020',accent:'#FFD966',label:'#C9486F',heading:'#1F5C42',body:'#4F6A5A',line:'#F0DDD4',soft:'#FFEFE8',tint:'#E3F3E6',alt:'#FFE3D8',
+ r1:'#3E9B5F',r2:'#E8789A',r3:'#E0A100',r4:'#2E7D5B',badgeA:'#2E7D5B',badgeB:'#D2587F',cov1:'#D2EDC8',cov2:'#FCD9E1',cov3:'#FFE9A8'}
+};
+var ORDER=['0','1','2','5','6','7'];
+var cur='5',page='home';
+
+function logoHTML(id,dark){
+ var t=T[id],bg=dark?t.dark:'#fff';
+ var a=dark?t.lDA:t.lA,b=dark?t.lDB:t.lB;
+ return '<svg viewBox="0 0 100 100" aria-hidden="true">'+ICON[id](dark,bg)+'</svg><span><b><i style="font-style:normal;color:'+a+'">Onco</i><i style="font-style:normal;color:'+b+'">Hub</i></b><small style="color:'+(dark?'#fff':t.body)+'">Hiểu và Đồng hành</small></span>';
+}
+
+/* ===== dựng nội dung lặp ===== */
+var steps=['Hiểu chẩn đoán của mình','Xin bản pathology / imaging','Hiểu giai đoạn bệnh','Biết ai đang phụ trách điều trị?','Hiểu các lựa chọn điều trị','Chuẩn bị câu hỏi cho bác sĩ','Hỏi về biomarker / genetic testing','Hỏi liệu có clinical trial phù hợp không','Tìm hỗ trợ cho mình và gia đình'];
+document.getElementById('steps').innerHTML=steps.map(function(s,i){return '<li><i>'+(i+1)+'</i>'+s+'</li>'}).join('');
+document.getElementById('menu').innerHTML=['Hiểu về ung thư','Điều trị','Sống cùng ung thư','Thử nghiệm lâm sàng','Dành cho người thân','Tìm hỗ trợ'].map(function(m,i){return '<a href="#" onclick="return false" data-i="'+i+'">'+m+' ⌄</a>'}).join('');
+
+var regs=[
+ ['1','Đầu & cổ','Não, mũi họng, tuyến giáp, khoang miệng',['Ung thư vòm họng','Ung thư tuyến giáp','Ung thư khoang miệng','Ung thư thanh quản','U não'],'r1'],
+ ['2','Ngực','Phổi, vú, thực quản',['Ung thư vú','Ung thư phổi','Ung thư thực quản'],'r2'],
+ ['3','Bụng','Hệ tiêu hóa',['Ung thư gan','Ung thư dạ dày','Ung thư đại trực tràng','Ung thư tụy','Ung thư đường mật'],'r3'],
+ ['4','Vùng chậu','Tiết niệu, sinh sản',['Ung thư cổ tử cung','Ung thư tiền liệt tuyến','Ung thư buồng trứng','Ung thư bàng quang'],'r4']];
+document.getElementById('regions').innerHTML=regs.map(function(r){return '<div class="rc" style="--c:var(--'+r[4]+')"><div class="top"><div class="t"><span class="n">'+r[0]+'</span><div><h4 class="serif">'+r[1]+'</h4><small>'+r[2]+'</small></div></div><a href="#" onclick="return false">Xem vùng này →</a></div><div class="chips">'+r[3].map(function(c){return '<span class="chip">'+c+'</span>'}).join('')+'</div></div>'}).join('');
+document.getElementById('fig').innerHTML='<svg viewBox="0 0 200 340" role="img" aria-label="Hình người minh họa bốn vùng cơ thể"><g fill="color-mix(in srgb,var(--feature) 22%,#fff)"><rect x="26" y="78" width="20" height="132" rx="10"/><rect x="154" y="78" width="20" height="132" rx="10"/><rect x="62" y="270" width="30" height="62" rx="13"/><rect x="108" y="270" width="30" height="62" rx="13"/></g><rect x="86" y="46" width="28" height="30" fill="var(--r1)"/><circle cx="100" cy="30" r="22" fill="var(--r1)"/><rect x="52" y="76" width="96" height="70" rx="14" fill="var(--r2)"/><rect x="60" y="150" width="80" height="56" rx="12" fill="var(--r3)"/><rect x="56" y="210" width="88" height="62" rx="16" fill="var(--r4)"/><g fill="#fff" font-size="15" font-weight="600" text-anchor="middle"><text x="100" y="36">1</text><text x="100" y="116">2</text><text x="100" y="184">3</text><text x="100" y="246">4</text></g></svg>';
+
+var tp=[['Ung thư của tôi là gì?','Hiểu về ung thư','Các loại ung thư, giai đoạn bệnh, giải phẫu bệnh, biomarker, tiên lượng.','a'],['Tôi có nguy cơ không?','Phòng ngừa & phát hiện sớm','Tầm soát, HPV, lối sống, dấu hiệu cảnh báo.','a'],['Bây giờ tôi phải làm gì?','Khi vừa được chẩn đoán','Các bước đầu tiên, bác sĩ chuyên khoa, second opinion, câu hỏi cho bác sĩ.','b'],['Các lựa chọn của tôi là gì?','Điều trị ung thư','Phẫu thuật, hóa trị, xạ trị, điều trị đích, miễn dịch, nội tiết.','a'],['Có lựa chọn nào khác không?','Thử nghiệm lâm sàng','Phase, consent, placebo, eligibility, quyền của người tham gia.','a'],['Làm sao sống tốt hơn?','Sống cùng ung thư','Tác dụng phụ, dinh dưỡng, vận động, tâm lý, công việc.','a'],['Tôi giúp người thân thế nào?','Người thân & người chăm sóc','Giao tiếp, trẻ em, burnout, hỗ trợ thực tế.','b'],['Tôi tìm sự giúp đỡ ở đâu?','Đồng hành & hỗ trợ','Bệnh viện, nguồn hỗ trợ xã hội / tài chính, chăm sóc giảm nhẹ.','b']];
+document.getElementById('topics').innerHTML=tp.map(function(t,i){return '<div class="tc '+t[3]+'"><div class="nn">0'+(i+1)+'</div><em>“'+t[0]+'”</em><h4 class="serif">'+t[1]+'</h4><p>'+t[2]+'</p></div>'}).join('');
+var ar=[['Thứ hai · Hiểu','cov1','Giải phẫu bệnh là gì và vì sao kết quả này quan trọng?','Đã duyệt y khoa · 6 phút đọc'],['Thứ tư · Lựa chọn','cov2','Chuẩn bị gì trước buổi hẹn bác sĩ để bàn về điều trị?','Đã duyệt y khoa · 5 phút đọc'],['Thứ sáu · Đồng hành','cov3','Người chăm sóc cũng cần được chăm sóc: nhận biết kiệt sức','Đã duyệt y khoa · 7 phút đọc']];
+document.getElementById('arts').innerHTML=ar.map(function(a){return '<div class="ac"><div class="cover" style="background:var(--'+a[1]+')"><i></i><i></i></div><div class="bd"><span class="tag" style="background:color-mix(in srgb,var(--'+a[1]+') 85%,#fff)">'+a[0]+'</span><h4 class="serif">'+a[2]+'</h4><div class="meta">'+a[3]+'</div></div></div>'}).join('');
+
+/* ===== áp dụng theme ===== */
+var site=document.getElementById('site');
+function apply(id){
+ cur=id;var t=T[id];
+ for(var k in t){if(/^(name|sub|note|lA|lB|lDA|lDB)$/.test(k))continue;site.style.setProperty('--'+k,t[k])}
+ document.querySelectorAll('.slot').forEach(function(el){el.innerHTML=logoHTML(id,el.dataset.dark==='1')});
+ document.querySelectorAll('.btns').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.id===id)});
+ var sw=[['dark','Nền đậm'],['cta','Nút chính'],['ctaD','Nút trên nền đậm'],['accent','Nhấn vàng'],['heading','Chữ tiêu đề'],['soft','Nền kem'],['tint','Nền nhạt'],['alt','Nền phụ']];
+ document.getElementById('pal').innerHTML=sw.map(function(s){return '<span class="sw"><i style="background:'+t[s[0]]+'"></i><b>'+s[1]+'</b> '+t[s[0]]+'</span>'}).join('')+'<span id="note">'+t.name+': '+t.note+'</span>';
+}
+document.getElementById('themes').innerHTML=ORDER.map(function(id){var t=T[id];return '<button class="btns" data-id="'+id+'" aria-pressed="false"><span class="ico"><svg viewBox="0 0 100 100" aria-hidden="true">'+ICON[id](false,'#fff')+'</svg></span><span>'+t.name+'<small>'+t.sub+'</small></span></button>'}).join('');
+document.getElementById('themes').addEventListener('click',function(e){var b=e.target.closest('.btns');if(b)apply(b.dataset.id)});
+
+/* ===== chuyển trang ===== */
+function show(p){
+ page=p;
+ document.getElementById('pHome').hidden=(p!=='home');
+ document.getElementById('pArt').hidden=(p!=='art');
+ document.getElementById('bHome').setAttribute('aria-pressed',p==='home');
+ document.getElementById('bArt').setAttribute('aria-pressed',p==='art');
+ document.querySelectorAll('#menu a').forEach(function(a){a.classList.toggle('on',p==='art'&&a.dataset.i==='0')});
+ window.scrollTo(0,0);
+}
+document.getElementById('bHome').onclick=function(){show('home')};
+document.getElementById('bArt').onclick=function(){show('art')};
+
+/* ===== mục lục theo vị trí cuộn ===== */
+var tocLinks=document.querySelectorAll('.toc a');
+if('IntersectionObserver' in window){
+ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){tocLinks.forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-160px 0px -65% 0px'});
+ document.querySelectorAll('.art h2').forEach(function(h){io.observe(h)});
+}
+tocLinks.forEach(function(a){a.addEventListener('click',function(){tocLinks.forEach(function(x){x.classList.remove('on')});a.classList.add('on')})});
+
+apply('5');show('home');
+})();
+</script>
+</body>
+</html>
